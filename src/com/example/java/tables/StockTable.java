@@ -3,7 +3,6 @@ package com.example.java.tables;
 import com.example.java.util.DBUtil;
 import com.example.java.bean.Stock;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.text.NumberFormat;
 
@@ -43,7 +42,6 @@ public class StockTable {
         }
     }
 
-
     public static void retrieve(Date date) {
 
         String query = "SELECT symbol, MAX(price) AS maxStockPrice, MIN(price) AS minStockPrice, SUM(volume) AS sum," +
@@ -63,11 +61,9 @@ public class StockTable {
                 float minPrice = rs.getFloat("minStockPrice");
                 int volume = rs.getInt("sum");
                 date = rs.getDate("date");
-
                 System.out.println("Stock: " + symbol + " | Max Price: " + defaultFormat.format(maxPrice) + " | Min Price: " + defaultFormat.format(minPrice) +
                 " | Volume: " + volume + " | Date: " + date + " |");
             }
-
         } catch (SQLException e) {
             System.err.println("Got an exception! ");
             System.err.println(e);

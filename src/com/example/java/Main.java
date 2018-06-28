@@ -9,9 +9,6 @@ import java.io.*;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,22 +19,21 @@ public class Main {
 
         //Read in JSON object & insert into database table
         ObjectMapper objectMapper = new ObjectMapper();
-
-        List<Stock> stock = objectMapper.readValue(new URL("file:///Users/rohangrover/Desktop/week1-stocks.json"), new TypeReference<List<Stock>>(){});
+        List<Stock> stock = objectMapper.readValue(new URL("file:///Users/rohangrover/Desktop/week1-stocks.json"), new TypeReference<List<Stock>>() {});
 
         Stock bean = new Stock();
-
         for (int i = 0; i < stock.size() - 1; i++) {
             bean.setSymbol(stock.get(i).getSymbol());
             bean.setPrice(stock.get(i).getPrice());
             bean.setVolume(stock.get(i).getVolume());
             bean.setDate(stock.get(i).getDate());
-            //StockTable.insert(bean);
+            StockTable.insert(bean);
+            System.out.println("Data is being inserted...");
         }
-        //System.out.println("Data inserted into table!\n");
+
+        System.out.println("Data inserted into table!\n");
 
         //Retrieving aggregate data for stock information
-
         Date date = null;
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter date: ");
@@ -45,9 +41,9 @@ public class Main {
         do {
             try {
                 date = Date.valueOf(sc.next());
+
                 System.out.println("Stock Information for " + date);
                 System.out.println("-----------------");
-
                 StockTable.retrieve(date);
 
             } catch (IllegalArgumentException e) {
@@ -55,10 +51,6 @@ public class Main {
                 sc.nextLine();
             }
         } while (date == null);
-
-
-
-
 
     }
 }
